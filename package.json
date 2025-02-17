@@ -4,10 +4,14 @@
   "private": true,
   "scripts": {
     "format": "prettier --write .",
-    "check": "prettier --check ."
+    "check": "prettier --check .",
+    "build": "vite-node build.ts"
   },
   "devDependencies": {
+    "@types/node": "^22.13.4",
     "prettier": "^3.5.1",
-    "prettier-plugin-sh": "^0.14.0"
+    "prettier-plugin-sh": "^0.14.0",
+    "typescript": "^5.7.3",
+    "vite-node": "^3.0.5"
   }
 }

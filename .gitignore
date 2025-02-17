@@ -8,3 +8,5 @@
 
 # Node dependencies and build artifacts.
 node_modules/
+out/
+*/license.txt
