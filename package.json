@@ -3,5 +3,13 @@
   "displayName": "Code Assist",
   "description": "Local auto complete, git line info, and themes.",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "format": "prettier --write .",
+    "check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.5.1",
+    "prettier-plugin-sh": "^0.14.0"
+  }
 }
