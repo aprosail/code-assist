@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "name": "Code Assist",
+      "args": [
+        // Specify folder to open when launch extension.
+        "${workspaceFolder}/example",
+        "--extensionDevelopmentPath=${workspaceFolder}/code-assist/out"
+      ],
+      "request": "launch",
+      "type": "extensionHost"
+    }
+  ]
+}

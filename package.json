@@ -1,6 +1,7 @@
 {
   "name": "code-assist-workspace",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "format": "prettier --write .",
@@ -8,9 +9,13 @@
     "build": "vite-node build.ts"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/node": "^22.13.4",
     "prettier": "^3.5.1",
     "prettier-plugin-sh": "^0.14.0",
+    "rollup": "^4.34.8",
+    "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "vite-node": "^3.0.5"
   }

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    // Module resolution.
+    "module": "ESNext",
+    "moduleResolution": "node",
+
+    // Strict mode.
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictBuiltinIteratorReturn": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true
+  },
+  "include": ["src/**/*.ts", "build.ts"]
+}
