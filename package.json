@@ -1,7 +1,5 @@
 {
-  "name": "code-assist",
-  "displayName": "Code Assist",
-  "description": "Local auto complete, git line info, and themes.",
+  "name": "code-assist-workspace",
   "version": "0.0.0",
   "private": true,
   "scripts": {

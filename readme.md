@@ -1,7 +1,5 @@
-# Code Assist
+# Code Assist Workspace
 
-A VSCode extension for better development experience, including:
-
-1. Offline auto complete using models on your local machine.
-2. Git line info about committer, time and message headline.
-3. Color themes, icon themes and product icon themes.
+1. [Code Assist](./code-assist): The VSCode extension.
+2. [Code Icons](./code-icons): Generate icons using code.
+3. [Code Themes](./code-themes): Generate VSCode color theme using code.
