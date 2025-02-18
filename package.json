@@ -12,6 +12,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/node": "^22.13.4",
+    "comment-json": "^4.2.5",
     "prettier": "^3.5.1",
     "prettier-plugin-sh": "^0.14.0",
     "rollup": "^4.34.8",
