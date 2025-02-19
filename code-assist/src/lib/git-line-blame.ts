@@ -58,7 +58,8 @@ function updateBlame(editor: vscode.TextEditor) {
     return
   }
 
-  const id = result.stdout.toString().substring(0, 40)
+  // The log of the first commit will start with a "^" sign.
+  const id = removePrefix(result.stdout.toString().substring(0, 40), "^")
   // Remove decoration when not commit yet.
   if (id === "0".repeat(40)) {
     editor.setDecorations(lineBlameDecoration, [])
@@ -143,4 +144,8 @@ function formatDuration(from: number): string {
   const date = now.getDate().toString().padStart(2, "0")
   const weekday = now.getDay()
   return `${year}.${month}.${date}(${weekday})`
+}
+
+function removePrefix(raw: string, prefix: string) {
+  return raw.startsWith(prefix) ? raw.slice(prefix.length) : raw
 }
