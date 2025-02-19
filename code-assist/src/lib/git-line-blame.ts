@@ -96,13 +96,9 @@ const lineBlameDecoration = vscode.window.createTextEditorDecorationType({
 
 /**
  * Throttle a function to avoid frequent call to improve performance.
- * It will wait a {@link threshold}, that if the {@link caller} is called
- * during such period of time, it won't execute the previous call.
- * The exact threshold value is {@link threshold} + {@link tolerance}.
  *
  * @param caller the function to execute.
  * @param threshold the threshold in milliseconds.
- * @param tolerance the tolerance of time delta in milliseconds.
  * @returns the same type as the {@link caller}.
  */
 function throttle<T extends unknown[]>(
@@ -111,11 +107,9 @@ function throttle<T extends unknown[]>(
 ) {
   let last = new Date().getTime()
   return function wrapper(...args: T) {
-    setTimeout(() => {
-      const now = new Date().getTime()
-      if (now - last >= threshold) caller(...args)
-      last = now
-    }, threshold)
+    const now = new Date().getTime()
+    if (now - last >= threshold) caller(...args)
+    last = now
   }
 }
 
