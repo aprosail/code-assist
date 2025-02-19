@@ -63,16 +63,16 @@ function updateBlame(editor: vscode.TextEditor) {
   const title = execute(`git log ${id} --pretty=format:"%s" -1`)
 
   // Format line blame info.
-  const message = `${username}(${formatDuration(parseInt(timestamp))}) ${title}`
+  const info = `${username} (${formatDuration(parseInt(timestamp))}) ${title}`
 
   // Apply decorations.
   const activeLineLength = editor.document.lineAt(line).text.length
   const decoration: vscode.DecorationOptions = {
     range: new vscode.Range(
       new vscode.Position(line, activeLineLength),
-      new vscode.Position(line, activeLineLength + message.length),
+      new vscode.Position(line, activeLineLength + info.length),
     ),
-    renderOptions: {after: {contentText: message}},
+    renderOptions: {after: {contentText: info}},
   }
   editor.setDecorations(lineBlameDecoration, [decoration])
 }
@@ -80,7 +80,7 @@ function updateBlame(editor: vscode.TextEditor) {
 /** Define line blame decoration style. */
 const lineBlameDecoration = vscode.window.createTextEditorDecorationType({
   after: {
-    textDecoration: "none; opacity: 0.3;",
+    textDecoration: "none; opacity: 0.5;",
     margin: "0 0 0 1em",
   },
 })
