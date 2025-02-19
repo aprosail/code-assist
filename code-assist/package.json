@@ -5,6 +5,11 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aprosail/code-assist.git",
+    "directory": "code-assist"
+  },
   "engines": {
     "vscode": "^1.97.2"
   },
@@ -20,7 +25,8 @@
     ]
   },
   "scripts": {
-    "build": "vite-node build.ts"
+    "build": "vite-node build.ts",
+    "package": "vite-node build.ts pack"
   },
   "devDependencies": {
     "@types/vscode": "^1.97.0"

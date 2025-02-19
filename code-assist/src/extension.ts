@@ -1,8 +1,7 @@
 import * as vscode from "vscode"
+import {enableGitLineBlame} from "./lib/git-line-blame"
 
 export function activate(context: vscode.ExtensionContext) {
-  const hello = vscode.commands.registerCommand("hello", () => {
-    vscode.window.showInformationMessage("it works")
-  })
-  context.subscriptions.push(hello)
+  const log = vscode.window.createOutputChannel("code-assist")
+  enableGitLineBlame(context, log)
 }
