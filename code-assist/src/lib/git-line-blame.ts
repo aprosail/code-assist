@@ -22,11 +22,16 @@ export function enableGitLineBlame(context: vscode.ExtensionContext) {
 
 /** Update Git line blame display of the given {@link editor}. */
 function updateBlame(editor: vscode.TextEditor) {
+  // Avoid decoration when no file is opened.
   const path = editor.document.uri.path
-  if (path == "exthost") return // When no file is opened.
+  if (path == "exthost") return
 
+  // Cancel decoration when focusing on the last line.
   const line = editor.selection.active.line
-  if (line >= editor.document.lineCount - 1) return // Cannot blame last line.
+  if (line >= editor.document.lineCount - 1) {
+    editor.setDecorations(lineBlameDecoration, [])
+    return
+  }
 
   function execute(command: string) {
     const cwd = dirname(path)
