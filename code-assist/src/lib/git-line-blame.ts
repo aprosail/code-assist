@@ -2,10 +2,7 @@ import {execSync, spawnSync} from "node:child_process"
 import {dirname} from "node:path"
 import * as vscode from "vscode"
 
-export function enableGitLineBlame(
-  context: vscode.ExtensionContext,
-  log?: vscode.OutputChannel,
-) {
+export function enableGitLineBlame(context: vscode.ExtensionContext) {
   // The selection change event will be called frequently,
   // that it must be throttled to improve performance.
   type commonEvent = {readonly textEditor: vscode.TextEditor}
@@ -13,7 +10,6 @@ export function enableGitLineBlame(
     try {
       updateBlame(event.textEditor)
     } catch (error) {
-      log?.appendLine("")
       vscode.window.showErrorMessage(`${error}`)
     }
   })
@@ -55,7 +51,14 @@ function updateBlame(editor: vscode.TextEditor) {
   }
 
   const l = line + 1
-  const id = execute(`git blame -L${l},${l} -l ${path}`).substring(0, 40)
+  const result = spawn(`git blame -L${l},${l} -l ${path}`)
+  if (result.status !== 0) {
+    // Most probably when out of range when not commit at file tail.
+    editor.setDecorations(lineBlameDecoration, [])
+    return
+  }
+
+  const id = result.stdout.toString().substring(0, 40)
   // Remove decoration when not commit yet.
   if (id === "0".repeat(40)) {
     editor.setDecorations(lineBlameDecoration, [])
