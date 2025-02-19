@@ -3,15 +3,17 @@ import {dirname} from "node:path"
 import * as vscode from "vscode"
 
 export function enableGitLineBlame(context: vscode.ExtensionContext) {
-  function updater(event: {readonly textEditor: vscode.TextEditor}) {
+  // Wrap throttle and error handling.
+  type commonEvent = {readonly textEditor: vscode.TextEditor}
+  const updater = throttle(function wrapper(event: commonEvent) {
     try {
       updateBlame(event.textEditor)
     } catch (error) {
       vscode.window.showErrorMessage(`${error}`)
     }
-  }
+  })
 
-  // Register subscriptions.
+  // Register event listeners.
   context.subscriptions.push(
     vscode.window.onDidChangeTextEditorSelection(updater),
     vscode.window.onDidChangeTextEditorSelection(updater),
@@ -58,3 +60,29 @@ const lineBlameDecoration = vscode.window.createTextEditorDecorationType({
     margin: "0 0 0 1em",
   },
 })
+
+/**
+ * Throttle a function to avoid frequent call to improve performance.
+ * It will wait a {@link threshold}, that if the {@link caller} is called
+ * during such period of time, it won't execute the previous call.
+ * The exact threshold value is {@link threshold} + {@link tolerance}.
+ *
+ * @param caller the function to execute.
+ * @param threshold the threshold in milliseconds.
+ * @param tolerance the tolerance of time delta in milliseconds.
+ * @returns the same type as the {@link caller}.
+ */
+function throttle<T extends unknown[]>(
+  caller: (...args: T) => void,
+  threshold: number = 50,
+  tolerance: number = 10,
+) {
+  let last = new Date().getTime()
+  return function wrapper(...args: T) {
+    last = new Date().getTime()
+    setTimeout(() => {
+      const now = new Date().getTime()
+      if (now - last >= threshold) caller(...args)
+    }, threshold + tolerance)
+  }
+}
