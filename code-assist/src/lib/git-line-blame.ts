@@ -57,12 +57,15 @@ function updateBlame(editor: vscode.TextEditor) {
   const l = line + 1
   const id = execute(`git blame -L${l},${l} -l ${path}`).substring(0, 40)
 
+  // Parse necessary information using Git.
   const username = execute(`git log ${id} --pretty=format:"%an" -1`)
   const timestamp = execute(`git log ${id} --pretty=format:"%at" -1`)
   const title = execute(`git log ${id} --pretty=format:"%s" -1`)
 
-  const message = `${username}(${timestamp}) ${title}`
+  // Format line blame info.
+  const message = `${username}(${formatDuration(parseInt(timestamp))}) ${title}`
 
+  // Apply decorations.
   const activeLineLength = editor.document.lineAt(line).text.length
   const decoration: vscode.DecorationOptions = {
     range: new vscode.Range(
@@ -105,4 +108,31 @@ function throttle<T extends unknown[]>(
       last = now
     }, threshold)
   }
+}
+
+/**
+ * Format the duration since {@link from},
+ * and return absolute date when duration is too long.
+ *
+ * @param from timestamp from epoch in seconds.
+ */
+function formatDuration(from: number): string {
+  const now = new Date()
+  const seconds = ((now.getTime() / 1000) | 0) - from
+
+  // Process and return relative time if proper.
+  if (seconds < 60) return `${seconds} s`
+  const minutes = (seconds / 60) | 0
+  if (minutes < 60) return `${minutes} min`
+  const hours = (minutes / 60) | 0
+  if (hours < 24) return `${hours} h`
+  const days = (hours / 24) | 0
+  if (days < 10) return `${days} days`
+
+  // Return absolute time if too long.
+  const year = now.getFullYear()
+  const month = (now.getMonth() + 1).toString().padStart(2, "0")
+  const date = now.getDate().toString().padStart(2, "0")
+  const weekday = now.getDay()
+  return `${year}.${month}.${date}(${weekday})`
 }
