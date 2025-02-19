@@ -56,6 +56,11 @@ function updateBlame(editor: vscode.TextEditor) {
 
   const l = line + 1
   const id = execute(`git blame -L${l},${l} -l ${path}`).substring(0, 40)
+  // Remove decoration when not commit yet.
+  if (id === "0".repeat(40)) {
+    editor.setDecorations(lineBlameDecoration, [])
+    return
+  }
 
   // Parse necessary information using Git.
   const username = execute(`git log ${id} --pretty=format:"%an" -1`)
@@ -121,13 +126,13 @@ function formatDuration(from: number): string {
   const seconds = ((now.getTime() / 1000) | 0) - from
 
   // Process and return relative time if proper.
-  if (seconds < 60) return `${seconds} s`
+  if (seconds < 60) return `${seconds}s`
   const minutes = (seconds / 60) | 0
-  if (minutes < 60) return `${minutes} min`
+  if (minutes < 60) return `${minutes}min`
   const hours = (minutes / 60) | 0
-  if (hours < 24) return `${hours} h`
+  if (hours < 24) return `${hours}h`
   const days = (hours / 24) | 0
-  if (days < 10) return `${days} days`
+  if (days < 10) return `${days}days`
 
   // Return absolute time if too long.
   const year = now.getFullYear()
