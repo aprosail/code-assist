@@ -123,15 +123,15 @@ function throttle<T extends unknown[]>(
  */
 function formatDuration(from: number): string {
   const now = new Date()
-  const seconds = ((now.getTime() / 1000) | 0) - from
+  const seconds = Math.floor(now.getTime() / 1000) - from
 
   // Process and return relative time if proper.
   if (seconds < 60) return `${seconds}s`
-  const minutes = (seconds / 60) | 0
+  const minutes = Math.floor(seconds / 60)
   if (minutes < 60) return `${minutes}min`
-  const hours = (minutes / 60) | 0
+  const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours}h`
-  const days = (hours / 24) | 0
+  const days = Math.floor(hours / 24)
   if (days < 10) return `${days}days`
 
   // Return absolute time if too long.
