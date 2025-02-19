@@ -1,14 +1,19 @@
-import {execSync} from "node:child_process"
+import {execSync, spawnSync} from "node:child_process"
 import {dirname} from "node:path"
 import * as vscode from "vscode"
 
-export function enableGitLineBlame(context: vscode.ExtensionContext) {
-  // Wrap throttle and error handling.
+export function enableGitLineBlame(
+  context: vscode.ExtensionContext,
+  log?: vscode.OutputChannel,
+) {
+  // The selection change event will be called frequently,
+  // that it must be throttled to improve performance.
   type commonEvent = {readonly textEditor: vscode.TextEditor}
   const updater = throttle(function wrapper(event: commonEvent) {
     try {
       updateBlame(event.textEditor)
     } catch (error) {
+      log?.appendLine("")
       vscode.window.showErrorMessage(`${error}`)
     }
   })
@@ -16,7 +21,7 @@ export function enableGitLineBlame(context: vscode.ExtensionContext) {
   // Register event listeners.
   context.subscriptions.push(
     vscode.window.onDidChangeTextEditorSelection(updater),
-    vscode.window.onDidChangeTextEditorSelection(updater),
+    vscode.window.onDidChangeTextEditorVisibleRanges(updater),
   )
 }
 
@@ -33,6 +38,17 @@ function updateBlame(editor: vscode.TextEditor) {
     return
   }
 
+  /** Encapsulation of spawning a command with cwd at current {@link path}. */
+  function spawn(command: string) {
+    const cwd = dirname(path)
+    return spawnSync(command, {cwd, shell: true})
+  }
+
+  // When not tracked by Git, return to avoid unnecessary cost.
+  if (spawn("git rev-parse --is-inside-work-tree").status !== 0) return
+  if (spawn(`git check-ignore ${path} --quiet`).status === 0) return
+
+  /** Encapsulation of executing a command with cwd at current {@link path}. */
   function execute(command: string) {
     const cwd = dirname(path)
     return execSync(command, {cwd}).toString().trim()
@@ -80,14 +96,13 @@ const lineBlameDecoration = vscode.window.createTextEditorDecorationType({
 function throttle<T extends unknown[]>(
   caller: (...args: T) => void,
   threshold: number = 50,
-  tolerance: number = 10,
 ) {
   let last = new Date().getTime()
   return function wrapper(...args: T) {
-    last = new Date().getTime()
     setTimeout(() => {
       const now = new Date().getTime()
       if (now - last >= threshold) caller(...args)
-    }, threshold + tolerance)
+      last = now
+    }, threshold)
   }
 }
