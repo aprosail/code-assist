@@ -1,14 +1,18 @@
 import terser from "@rollup/plugin-terser"
 import typescript from "@rollup/plugin-typescript"
 import {createVSIX} from "@vscode/vsce"
-import {copyFileSync, readFileSync, writeFileSync} from "node:fs"
+import {
+  copyFileSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs"
 import {join, normalize, relative} from "node:path"
 import {argv} from "node:process"
 import {rollup} from "rollup"
 
 const root = import.meta.dirname
-const src = join(root, "src")
-const out = join(root, "out")
 
 /**
  * Sync manifest (`package.json` file)
@@ -57,7 +61,17 @@ async function bundle(src: string, out: string) {
   })
 }
 
+function emptyFolder(path: string) {
+  for (const name of readdirSync(path)) {
+    rmSync(join(path, name), {recursive: true})
+  }
+}
+
 async function main() {
+  const src = join(root, "src")
+  const out = join(root, "out")
+  emptyFolder(out)
+
   const codeName = "extension"
   const srcCode = join(src, `${codeName}.ts`)
   const outCode = join(out, `${codeName}.js`)
