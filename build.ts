@@ -1,6 +1,8 @@
 import * as jsonc from "comment-json"
-import {copyFileSync, readFileSync, writeFileSync} from "node:fs"
+import {spawn, SpawnOptionsWithoutStdio} from "node:child_process"
+import {copyFileSync, existsSync, readFileSync, writeFileSync} from "node:fs"
 import {join} from "node:path"
+import {argv} from "node:process"
 import * as prettier from "prettier"
 
 const root = import.meta.dirname
@@ -75,12 +77,32 @@ async function generateVSCodeSettings(
   writeFileSync(outFile, result)
 }
 
+/** Encapsulation of running a command and redirect the output to console. */
+async function runCommand(command: string, options?: SpawnOptionsWithoutStdio) {
+  return new Promise<void>((resolve, reject) => {
+    const process = spawn(command, options)
+    process.stdout.on("data", (data) => console.log(data.toString()))
+    process.stderr.on("data", (data) => console.error(data.toString()))
+    process.on("close", (code) => (code === 0 ? resolve() : reject()))
+  })
+}
+
 async function main() {
   const example = "example"
-  const children = ["code-assist", "code-icons", "code-themes", example]
-  syncLicense(children)
+  const children = ["code-assist", "code-icons", "code-themes"]
+  syncLicense([...children, example])
   await generateVSCodeSettings(example, {
     "git.openRepositoryInParentFolders": "always",
   })
+
+  // Enable run all scripts.
+  if (argv.includes("all")) {
+    for (const child of children) {
+      const base = join(root, child)
+      const script = join(base, "build.ts")
+      if (!existsSync(script)) continue
+      await runCommand(`pnpx vite-node build.ts`, {cwd: base, shell: true})
+    }
+  }
 }
 main()
