@@ -17,9 +17,6 @@ importers:
       '@types/node':
         specifier: ^22.13.4
         version: 22.13.4
-      '@vscode/vsce':
-        specifier: ^3.2.2
-        version: 3.2.2
       comment-json:
         specifier: ^4.2.5
         version: 4.2.5
@@ -47,6 +44,11 @@ importers:
       '@types/vscode':
         specifier: ^1.97.0
         version: 1.97.0
+      '@vscode/vsce':
+        specifier: ^3.2.2
+        version: 3.2.2
+
+  code-themes: {}
 
 packages:
 
