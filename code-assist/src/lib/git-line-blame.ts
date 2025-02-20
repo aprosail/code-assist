@@ -21,14 +21,25 @@ export function enableGitLineBlame(context: vscode.ExtensionContext) {
   )
 }
 
+// Status handlers to avoid unnecessary call to improve performance.
+let lastLine = -1
+let lastFile = "exthost" // Means no file is opened.
+let lastFileTracked = true // The check is before set, if true, it's dead code.
+
 /** Update Git line blame display of the given {@link editor}. */
 function updateBlame(editor: vscode.TextEditor) {
-  // Avoid decoration when no file is opened.
   const path = editor.document.uri.path
-  if (path == "exthost") return
-
-  // Cancel decoration when focusing on the last line.
   const line = editor.selection.active.line
+
+  // Avoid unnecessary repeat spawn calls.
+  if (lastFile === path) {
+    if (!lastFileTracked) return
+    if (lastLine === line) return
+  }
+  lastFile = path
+  lastLine = line
+
+  // Remove decoration when focusing on last line.
   if (line >= editor.document.lineCount - 1) {
     editor.setDecorations(lineBlameDecoration, [])
     return
@@ -41,8 +52,13 @@ function updateBlame(editor: vscode.TextEditor) {
   }
 
   // When not tracked by Git, return to avoid unnecessary cost.
-  if (spawn("git rev-parse --is-inside-work-tree").status !== 0) return
-  if (spawn(`git check-ignore ${path} --quiet`).status === 0) return
+  if (
+    spawn("git rev-parse --is-inside-work-tree").status !== 0 ||
+    spawn(`git check-ignore ${path} --quiet`).status === 0
+  ) {
+    lastFileTracked = false
+    return
+  }
 
   /** Encapsulation of executing a command with cwd at current {@link path}. */
   function execute(command: string) {
