@@ -12,6 +12,7 @@
 
   // File nesting patterns.
   "explorer.fileNesting.patterns": {
-    "package.json": "pnpm-lock.yaml"
+    "package.json": "pnpm-lock.yaml",
+    "*.ts": "${capture}.test.ts"
   }
 }

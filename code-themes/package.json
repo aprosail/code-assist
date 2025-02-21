@@ -1,0 +1,12 @@
+{
+  "name": "code-themes",
+  "description": "Use code to generate VSCode theme for programmatic reuse.",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite-node build.ts"
+  },
+  "devDependencies": {
+    "json5": "^2.2.3"
+  }
+}
