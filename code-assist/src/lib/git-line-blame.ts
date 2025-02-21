@@ -105,7 +105,7 @@ function updateBlame(editor: vscode.TextEditor) {
 /** Define line blame decoration style. */
 const lineBlameDecoration = vscode.window.createTextEditorDecorationType({
   after: {
-    textDecoration: "none; opacity: 0.5;",
+    color: new vscode.ThemeColor("git.blame.editorDecorationForeground"),
     margin: "0 0 0 1em",
   },
 })
