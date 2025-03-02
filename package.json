@@ -3,6 +3,10 @@
   "description": "A VSCode extension to improve development experience.",
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aprosail/code-assist"
+  },
   "engines": {
     "vscode": "^1.88.0"
   },
@@ -20,12 +24,20 @@
   },
   "scripts": {
     "format": "prettier --write .",
-    "check": "prettier --check ."
+    "check": "prettier --check .",
+    "build": "vite-node build.ts",
+    "package": "vite-node build.ts pack"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/node": "^22.13.8",
     "@types/vscode": "^1.97.0",
+    "@vscode/vsce": "^3.2.2",
     "prettier": "^3.5.2",
-    "prettier-plugin-sh": "^0.15.0"
+    "prettier-plugin-sh": "^0.15.0",
+    "rollup": "^4.34.9",
+    "tslib": "^2.8.1",
+    "vite-node": "^3.0.7"
   }
 }
