@@ -14,6 +14,7 @@ import {dirname, join, normalize, relative} from "node:path"
 import {argv} from "node:process"
 import * as prettier from "prettier"
 import {ExternalOption, rollup} from "rollup"
+import {generateInterfaces} from "./src/generate"
 
 /**
  * Generate bundle for a VSCode extension.
@@ -147,6 +148,11 @@ async function main() {
   emptyFolder(out)
   const outFilePath = await buildVSCodeExtension(src, out)
   syncManifest(root, out, outFilePath)
+
+  // Update auto generated color layout interfaces.
+  const templateJson = join(src, "template-color-theme.json")
+  const generateOutput = join(src, "lib", "color-layout.g.ts")
+  await generateInterfaces(templateJson, generateOutput)
 
   // Package the extension if specified by command.
   if (argv.includes("pack")) {
