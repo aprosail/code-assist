@@ -2,5 +2,13 @@
   "name": "code-assist",
   "description": "A VSCode extension to improve development experience.",
   "version": "0.0.0",
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.5.2",
+    "prettier-plugin-sh": "^0.15.0"
+  }
 }

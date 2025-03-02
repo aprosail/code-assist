@@ -1,0 +1,19 @@
+{
+  // General normalizations.
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.rulers": [80],
+
+  // Auto format on save. (Installation of corresponding extensions required.)
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {"source.organizeImports": "always"},
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // File nesting patterns.
+  "explorer.fileNesting.patterns": {
+    "package.json": "pnpm-lock.yaml",
+    "*.ts": "${capture}.test.ts",
+    "*.js": "${capture}.d.ts, ${capture}.cjs"
+  }
+}
