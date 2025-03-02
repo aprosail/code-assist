@@ -1,0 +1,6 @@
+{
+  "name": "code-assist",
+  "description": "A VSCode extension to improve development experience.",
+  "version": "0.0.0",
+  "type": "module"
+}
