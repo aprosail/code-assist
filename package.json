@@ -24,7 +24,8 @@
   },
   "scripts": {
     "format": "prettier --write .",
-    "check": "prettier --check .",
+    "check": "prettier --check . && eslint && vitest run",
+    "test": "vitest",
     "build": "vite-node build.ts",
     "package": "vite-node build.ts pack",
     "prelaunch": "vite-node build.ts launch"
@@ -48,6 +49,7 @@
     "tslib": "^2.8.1",
     "typescript": "5.7.3",
     "typescript-eslint": "^8.25.0",
-    "vite-node": "^3.0.7"
+    "vite-node": "^3.0.7",
+    "vitest": "^3.0.7"
   }
 }
