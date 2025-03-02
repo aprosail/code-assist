@@ -3,11 +3,28 @@
   "description": "A VSCode extension to improve development experience.",
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "main": "out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "title": "Hello Code Assist",
+        "command": "code-assist.hello"
+      }
+    ]
+  },
   "scripts": {
     "format": "prettier --write .",
     "check": "prettier --check ."
   },
   "devDependencies": {
+    "@types/node": "^22.13.8",
+    "@types/vscode": "^1.97.0",
     "prettier": "^3.5.2",
     "prettier-plugin-sh": "^0.15.0"
   }

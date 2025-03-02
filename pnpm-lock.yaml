@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@types/node':
+        specifier: ^22.13.8
+        version: 22.13.8
+      '@types/vscode':
+        specifier: ^1.97.0
+        version: 1.97.0
       prettier:
         specifier: ^3.5.2
         version: 3.5.2
@@ -16,6 +22,12 @@ importers:
         version: 0.15.0(prettier@3.5.2)
 
 packages:
+
+  '@types/node@22.13.8':
+    resolution: {integrity: sha512-G3EfaZS+iOGYWLLRCEAXdWK9my08oHNZ+FHluRiggIYJPOXzhOiDgpVCUHaUvyIC5/fj7C/p637jdzC666AOKQ==}
+
+  '@types/vscode@1.97.0':
+    resolution: {integrity: sha512-ueE73loeOTe7olaVyqP9mrRI54kVPJifUPjblZo9fYcv1CuVLPOEKEkqW0GkqPC454+nCEoigLWnC2Pp7prZ9w==}
 
   mvdan-sh@0.10.1:
     resolution: {integrity: sha512-kMbrH0EObaKmK3nVRKUIIya1dpASHIEusM13S4V1ViHFuxuNxCo+arxoa6j/dbV22YBGjl7UKJm9QQKJ2Crzhg==}
@@ -38,7 +50,16 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+
 snapshots:
+
+  '@types/node@22.13.8':
+    dependencies:
+      undici-types: 6.20.0
+
+  '@types/vscode@1.97.0': {}
 
   mvdan-sh@0.10.1: {}
 
@@ -55,3 +76,5 @@ snapshots:
       tslib: 2.8.1
 
   tslib@2.8.1: {}
+
+  undici-types@6.20.0: {}
