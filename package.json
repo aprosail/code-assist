@@ -26,7 +26,8 @@
     "format": "prettier --write .",
     "check": "prettier --check .",
     "build": "vite-node build.ts",
-    "package": "vite-node build.ts pack"
+    "package": "vite-node build.ts pack",
+    "prelaunch": "vite-node build.ts launch"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
@@ -34,6 +35,7 @@
     "@types/node": "^22.13.8",
     "@types/vscode": "^1.97.0",
     "@vscode/vsce": "^3.2.2",
+    "comment-json": "^4.2.5",
     "prettier": "^3.5.2",
     "prettier-plugin-sh": "^0.15.0",
     "rollup": "^4.34.9",

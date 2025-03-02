@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "name": "extension",
+      "args": [
+        // Specify folder to open when launch extension.
+        "${workspaceFolder}/example",
+        "--extensionDevelopmentPath=${workspaceFolder}/out"
+      ],
+      "preLaunchTask": "npm: prelaunch",
+      "request": "launch",
+      "type": "extensionHost"
+    }
+  ]
+}
